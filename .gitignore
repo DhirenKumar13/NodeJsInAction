@@ -59,3 +59,4 @@ typings/
 
 # next.js build output
 .next
+/weather-app/node_modules
