@@ -60,3 +60,5 @@ typings/
 # next.js build output
 .next
 /weather-app/node_modules
+/node-api-server/server.log
+/node-api-server/node_modules
