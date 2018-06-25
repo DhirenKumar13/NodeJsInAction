@@ -1,3 +1,4 @@
+const {ObjectID} = require('mongodb');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -24,6 +25,32 @@ app.post('/todos' , (req, res) => {
     }else {
         res.send('Request can\'t be empty');
     }
+});
+
+app.get('/todos', (req,res) => {
+    Todo.find().then((docs) => {
+        res.send({docs , status: 'SUCCESS'});
+    },(error) => {
+        console.log('Error occured while fetching the data from db..',error);
+    });
+});
+
+app.get('/todos/:id' ,(req, res) => {
+    let id = req.params.id;
+    if(!ObjectID.isValid(id)){
+        console.log('Invalid id passed');
+        return res.status(404).send('Invalid id passed');
+    } else {
+        Todo.findById(id).then((result) => {
+            if(!result) {
+                return res.status(404).send();
+            }
+            return res.status(200).send({result});
+        }).catch((error) => {
+            return res.status(400).send(error);
+        });
+    }
+
 });
 
 app.listen(3000 , () => {

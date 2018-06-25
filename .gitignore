@@ -63,3 +63,4 @@ typings/
 /node-api-server/server.log
 /node-api-server/node_modules
 /node-todo-api/node_modules
+/node-api-mongoose/node_modules
