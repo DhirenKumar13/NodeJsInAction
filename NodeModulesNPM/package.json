@@ -1,0 +1,14 @@
+{
+  "name": "node-modules-npm",
+  "version": "1.0.0",
+  "description": "Sample QR code generator application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dhiren",
+  "license": "ISC",
+  "dependencies": {
+    "qr-image": "^3.2.0"
+  }
+}
