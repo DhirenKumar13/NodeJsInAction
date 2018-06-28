@@ -1,4 +1,5 @@
 'Use strict';
+require('./auth')();
 
 module.exports = {
     router : require('./routes')(),

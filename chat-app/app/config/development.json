@@ -1,5 +1,11 @@
 {
     "host" : "http://localhost:3000",
     "dbURI" : "mongodb://dhiren_admin:Dhiren#1993@ds217921.mlab.com:17921/chatcat_node",
-    "sessionSecret" : "useThisAsDefaultSessionSecret"
+    "sessionSecret" : "useThisAsDefaultSessionSecret",
+    "facebook" : {
+        "clientID" : "446099802527943",
+        "clientSecret" : "f77ff1aeee28f2bef83afd90e9260582",
+        "callbackURL" : "//localhost:3000/auth/facebook/callback",
+        "profileFields" : ["id","displayName","photos"]
+    }
 }

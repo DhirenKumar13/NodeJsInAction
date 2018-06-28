@@ -1,5 +1,7 @@
 'Use strict';
 const express = require('express');
+const passport = require('passport');
+
 const app = express();
 const chatapp = require('./app');
 
@@ -9,6 +11,8 @@ app.set('view engine','ejs');
 app.use(express.static('public'));
 
 app.use(chatapp.session);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/',chatapp.router);
 
 app.listen(app.get('PORT'), () => {
