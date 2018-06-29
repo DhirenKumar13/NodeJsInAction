@@ -1,6 +1,7 @@
 'Use strict';
 const router = require('express').Router();
 const db = require('../db');
+const crypto = require('crypto');
 
 // iterate through the routes object and mount it with router middleware
 let _registerRouts = (routes, method) => {
@@ -27,14 +28,14 @@ let route = (routes) => {
 
 let findOne = (profileID) => {
     return db.userModel.findOne({
-        'profileID' : profileID
+        'profileId' : profileID
     });
 };
 
 let createUser = (profile) => {
     return new Promise((resolve, reject) => {
         let newUser = new db.userModel({
-            profileID : profile.id,
+            profileId : profile.id,
             fullName : profile.displayName,
             profilePic : profile.photos[0].value || ''
         });
@@ -63,9 +64,35 @@ let findUserById = (id) => {
     });
 };
 
+let isAuthenticated = (req, res, next) => {
+    if(req.isAuthenticated()) {
+        next();
+    } else {
+        req.redirect('/');
+    }
+};
+
+let findRoomByRoomName = (ExistingRooms, NewRoom) => {
+    let roomAvailablility = ExistingRooms.findIndex((element, index, array) => {
+        if(element.room === NewRoom) {
+            return true;
+        } else {
+            return false;
+        }
+        return roomAvailablility > -1 ? true : false;
+    });
+};
+
+let uniqueRandomId = () => {
+    return crypto.randomBytes(24).toString('hex');
+};
+
 module.exports = {
     route,
     findOne,
     createUser,
-    findUserById
+    findUserById,
+    isAuthenticated,
+    findRoomByRoomName,
+    uniqueRandomId
 };

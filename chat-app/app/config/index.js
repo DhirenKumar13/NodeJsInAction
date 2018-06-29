@@ -11,6 +11,12 @@ if(process.env.NODE_ENV === 'production') {
             clientSecret : process.env.secret,
             callbackURL : process.env.host +'/auth/facebook/callback',
             profileFields : ["id","displayName","photos"]
+        },
+        twitter : {
+            consumerKey : process.env.consumerKey,
+            consumerSecret : process.env.consumerSecret,
+            callbackURL : process.env.host +'/auth/twitter/callback',
+            profileFields : ["id","displayName","photos"]
         }
     }
 } else {

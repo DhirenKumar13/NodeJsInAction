@@ -3,6 +3,7 @@
 //express npm modules
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
 
 //user defined modules
 const helper = require('../helpers');
@@ -36,4 +37,5 @@ module.exports = () => {
     };
 
     passport.use(new FacebookStrategy(config.facebook, authProcessor));
+    passport.use(new TwitterStrategy(config.twitter, authProcessor));
 };
