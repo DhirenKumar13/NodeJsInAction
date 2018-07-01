@@ -2,20 +2,54 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>ChatCat - Topic Goes Here</title>
+	<title>ChatCat - <%= room %></title>
 	<link rel="stylesheet" href="/css/chatroomStyles.css">
 	<script src="/js/jquery-2.1.4.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		$(() => {
+			let socket = io('<%= host %>/chatter');
+			let roomID = '<%= roomID %>';
+			let user = '<%= user.fullName %>';
+			let userPic = '<%= user.profilePic %>';
+			let chatUsers = $('.chatUsers');
+
+			let userListHTML = (user) => {
+				return `<div class="userBlock">
+					<div class="userPic"><img src="${user.userPic}" alt="${user.user}"></div>
+					<div class="cuserName">${user.user}</div>
+				</div>`;
+			}
+			socket.on('connect', () => {
+				console.log('Client connected...');
+				socket.emit('join',{
+					roomID,
+					user,
+					userPic
+				});
+			});
+
+			socket.on('updateUserList', (userList) => {
+				let parsedUserList = JSON.parse(userList);
+				let userListData = '';
+				for(let user of userList) {
+					userListData += userListHTML(user);
+				}
+				chatUsers.html('').append(userListData);
+			})
+		});
+	</script>
 </head>
 <body>
 	<div class="container">
 		<div class="titlePanel">
-			<h1>ChatCAT | Topic Goes Here</h1>
+			<h1>ChatCAT | <%= room %></h1>
 		</div>
 		<div class="controls">
 			<div class="userPicHolder"><img src="<%= user.profilePic %>" alt="Dhiren"></div>
-			<p class="userName">Dhiren Kumar</p>
-			<a href="rooms.htm" id="roomsBtn">Rooms</a>
-			<a href="login.htm" id="logOutBtn">Logout</a>
+			<p class="userName"><%= user.fullName %></p>
+			<a href="/rooms" id="roomsBtn">Rooms</a>
+			<a href="/logout" id="logOutBtn">Logout</a>
 		</div>
 		<div class="chatListDiv">
 			<div class="chatMessagesPanel">
@@ -24,7 +58,7 @@
 				<div class="chatBlock">
 					<div class="userPic"><img src="<%= user.profilePic %>"></div>
 					<div class="chatMsg">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti perferendis eius aut nesciunt necessitatibus ad nulla, qui sequi, id nam. Possimus odit aut nisi veritatis amet distinctio id officiis ipsam!</div>
-				</div>					
+				</div>
 				<!-- loop end -->
 				</div>
 				<div class="typePanel">
@@ -34,10 +68,10 @@
 			</div>
 			<div class="chatUsers">
 			<!-- Loop this for chat users -->
-				<div class="userBlock">
+				<!-- <div class="userBlock">
 					<div class="userPic"><img src="<%= user.profilePic %>" alt="Dhiren"></div>
 					<div class="cuserName"><%= user.displayName %></div>
-				</div>
+				</div> -->
 			<!-- loop end -->
 			</div>
 		</div>

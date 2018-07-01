@@ -14,11 +14,18 @@ module.exports = () => {
                     host : config.host
                 });
             }],
-            '/chatroom' : [helpers.isAuthenticated, (req,res,next) => {
-                res.render('chatroom' , {
-                    user : req.user,
-                    host : config.host
-                });
+            '/chat/:id' : [helpers.isAuthenticated, (req,res,next) => {
+                let getRoom = helpers.findRoomByRoomId(req.app.locals.chatrooms, req.params.id);
+                if(getRoom === undefined) {
+                    next();
+                } else {
+                    res.render('chatroom' , {
+                        user : req.user,
+                        host : config.host,
+                        room : getRoom.room,
+                        roomID : getRoom.roomID
+                    });
+                }
             }],
             '/getSession' : (req,res,next) => {
                 res.send('Session color is :'+req.session.color);
